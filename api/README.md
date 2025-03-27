@@ -70,18 +70,4 @@ Each relation has been decomposed into BCNF/4NF to ensure that it is free of red
 - **Identify exercises not performed in any workout.**
 - **Find users who have achieved their fitness goals.**
 
-## Project Schedule and Management
 
-The project schedule is divided into the following phases:
-
-| Task                              | Start Date | End Date   | Status     |
-|-----------------------------------|------------|------------|------------|
-| Database Design & ERD             | 2024-09-01 | 2024-09-20 | Completed  |
-| Relational Schema & Normalization | 2024-09-21 | 2024-10-01 | In Progress|
-| Implementation & Testing          | 2024-10-02 | 2024-11-15 | Not Started|
-| Documentation & Video Creation    | 2024-11-16 | 2024-11-30 | Not Started|
-| Final Submission                  | 2024-12-01 | 2024-12-12 | Not Started|
-
----
-
-This README provides a high-level overview of the PRTracker project, its objectives, and the technical design of its database. For detailed implementation and additional information, please refer to the [project repository](https://github.com/cmsc-vcu/cmsc408-fa2024-proj-prtracker).
