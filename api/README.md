@@ -3,7 +3,7 @@
 ## Project Overview
 
 **Project Name**: PRTracker  
-**Team Members**: Alex Davidkov and Aneesh Mussim  
+**Team Members**: Aneesh Mussim  
 **Course**: CMSC408 - Fall 2024  
 **Date**: September 28, 2024  
 **GitHub Repository**: [CMSC408 PRTracker Repository](https://github.com/cmsc-vcu/cmsc408-fa2024-proj-prtracker)
