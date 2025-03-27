@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alex Davidkov and Aneesh Mussim">
+<meta name="dcterms.date" content="2024-09-28">
+
+<title>PRTracker</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="deliver-08_files/libs/clipboard/clipboard.min.js"></script>
+<script src="deliver-08_files/libs/quarto-html/quarto.js"></script>
+<script src="deliver-08_files/libs/quarto-html/popper.min.js"></script>
+<script src="deliver-08_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="deliver-08_files/libs/quarto-html/anchor.min.js"></script>
+<link href="deliver-08_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="deliver-08_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="deliver-08_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="deliver-08_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="deliver-08_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="deliver-08_files/libs/quarto-diagram/mermaid.min.js"></script>
+<script src="deliver-08_files/libs/quarto-diagram/mermaid-init.js"></script>
+<link href="deliver-08_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">PRTracker</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alex Davidkov and Aneesh Mussim </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 28, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="prtracker-database-design" class="level3">
+<h3 class="anchored" data-anchor-id="prtracker-database-design">PRTracker Database Design</h3>
+<section id="project-overview-and-key-deliverables" class="level4">
+<h4 class="anchored" data-anchor-id="project-overview-and-key-deliverables"><strong>Project Overview and Key Deliverables</strong></h4>
+<p><strong>Project Name:</strong> PRTracker</p>
+<p><strong>Description:</strong><br>
+PRTracker is a workout log database application that helps users track workouts, exercises, and performance metrics such as sets, reps, weight lifted, and calories burned. It supports goal setting and progress tracking, making it ideal for both individuals and personal trainers to manage and optimize fitness routines efficiently.</p>
+<p><strong>Project Deliverables:</strong></p>
+<ul>
+<li><p><strong>Pitch Video:</strong> [<a href="https://vcu.zoom.us/rec/share/gascYdsbK6lqeeTMTMOQ3bQaF_fnZxWFh8HHY_qqIAxMjVpi8BC8G21l77p-KOjw.8zr0bD4BpXU7E9Vu?startTime=1726086844000">URL to Pitch Video</a>]</p></li>
+<li><p><strong>Design Video:</strong> [<a href="https://vcu.zoom.us/rec/share/AynzXwFPb3BSq2AtpVeXSPpvYbUTcsufQmkGq_33c9vWCduvds1r1TuOdiPCHA31.oK6kNMKYpt2zrY0O?startTime=1727978668000">URL to Design Video</a>]</p></li>
+<li><p><strong>GitHub Repository:</strong> [<a href="https://github.com/cmsc-vcu/cmsc408-fa2024-proj-prtracker">URL to GitHub Repository</a>]</p></li>
+</ul>
+<hr>
+</section>
+<section id="problem-description" class="level4">
+<h4 class="anchored" data-anchor-id="problem-description"><strong>Problem Description</strong></h4>
+<p><strong>Problem Domain:</strong><br>
+Personal fitness is becoming increasingly important as people focus on maintaining their health and achieving specific fitness goals. Many individuals struggle to track their workouts effectively and measure their progress. PRTracker addresses these issues by providing a structured way to record workouts, analyze performance, and track progress over time.</p>
+<p><strong>Need:</strong><br>
+A database is necessary for this problem because it provides an organized, efficient way to manage and store workout data over time, solving the issues of manual tracking, inefficiency, and lack of insights. With a centralized database, users can visualize their progress and trainers can monitor their clients more effectively.</p>
+<p><strong>Context:</strong><br>
+The PRTracker database is designed for individuals and fitness professionals who need an organized way to track workouts and performance, helping users manage their fitness progress in detail.</p>
+<p><strong>Scope:</strong><br>
+The database focuses on logging workout sessions, exercises, performance metrics (e.g., sets, reps, weight, calories), and tracking fitness goals over time. It will support multiple users, including trainers monitoring clients.</p>
+<p><strong>Perspective:</strong><br>
+For individuals, the database helps track personal progress. For trainers, it aids in managing clients. For fitness enthusiasts, it provides detailed logs to optimize workouts.</p>
+<p><strong>Motivation:</strong><br>
+Our team chose this domain due to a shared interest in fitness and the challenges we’ve faced in manually tracking workouts. We believe it will offer real value to both individual users and fitness professionals.</p>
+<p><strong>User Roles and Use Cases:</strong> 1. <strong>Individual Users:</strong><br>
+- Track their personal workouts, exercises, and performance metrics. - Set and monitor fitness goals. - Analyze trends over time to make adjustments to workout plans.</p>
+<ol start="2" type="1">
+<li><strong>Personal Trainers:</strong>
+<ul>
+<li>Manage and track client workout routines.</li>
+<li>Review client progress and suggest changes based on tracked data.</li>
+<li>Set fitness goals for clients and monitor their achievement.</li>
+</ul></li>
+<li><strong>Administrators:</strong>
+<ul>
+<li>Manage user roles and access controls.</li>
+<li>Ensure database security and privacy compliance.</li>
+<li>Perform data analytics for user engagement and system performance.</li>
+</ul></li>
+</ol>
+<p><strong>Security and Privacy:</strong><br>
+The design must address user authentication, data encryption, and access control to ensure that users’ personal and health information is protected. Authentication mechanisms will be implemented to confirm user identity, while access controls will limit data visibility and modification permissions based on user roles.</p>
+<hr>
+</section>
+<section id="database-design" class="level4">
+<h4 class="anchored" data-anchor-id="database-design"><strong>Database Design</strong></h4>
+<p><strong>Entity-Relationship Diagram (ERD):</strong></p>
+<p>The database design includes the following entities:</p>
+<ol type="1">
+<li><strong>User:</strong> Stores details about the individual using the application (e.g., user ID, name, age, weight, fitness goals).</li>
+<li><strong>Workout:</strong> Represents the workout sessions (e.g., workout ID, date, duration, type of workout, total calories burned).</li>
+<li><strong>Exercise:</strong> Contains information about individual exercises performed during a workout (e.g., exercise ID, name, type, muscle group, equipment used).</li>
+<li><strong>Exercise Performance:</strong> Logs specific performance metrics for each exercise (e.g., sets, reps, weight lifted, distance, time, heart rate).</li>
+<li><strong>Goal:</strong> Tracks fitness goals and progress (e.g., goal ID, description, target, progress, start date, end date).</li>
+</ol>
+<p><strong>ERD Design:</strong></p>
+<ul>
+<li><strong>Chen Notation for High-Level Logical Architecture:</strong></li>
+</ul>
+<div class="cell" data-fig-width="100%" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-chen-prtracker" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chen-prtracker-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<svg width="NaN" height="480" viewbox="0.00 0.00 582.66 682.01" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 678.01)">
+<title>ER</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-678.01 578.66,-678.01 578.66,4 -4,4"></polygon>
+<!-- User -->
+<g id="node1" class="node">
+<title>User</title>
+<polygon fill="lightyellow" stroke="lightyellow" points="343.35,-345.96 289.35,-345.96 289.35,-309.96 343.35,-309.96 343.35,-345.96"></polygon>
+<text text-anchor="middle" x="316.35" y="-323.76" font-family="Times,serif" font-size="14.00">User</text>
+</g>
+<!-- Performs -->
+<g id="node34" class="node">
+<title>Performs</title>
+<polygon fill="lightgrey" stroke="lightgrey" points="396.61,-398.82 330.76,-380.82 396.61,-362.82 462.46,-380.82 396.61,-398.82"></polygon>
+<text text-anchor="middle" x="396.61" y="-376.62" font-family="Times,serif" font-size="14.00">Performs</text>
+</g>
+<!-- User&#45;&#45;Performs -->
+<g id="edge29" class="edge">
+<title>User--Performs</title>
+<path fill="none" stroke="black" d="M343.52,-345.85C354.43,-353.04 366.78,-361.18 376.82,-367.79"></path>
+<text text-anchor="middle" x="356.67" y="-344.22" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- Logs -->
+<g id="node35" class="node">
+<title>Logs</title>
+<polygon fill="lightgrey" stroke="lightgrey" points="295.46,-460.82 252.62,-442.82 295.46,-424.82 338.3,-442.82 295.46,-460.82"></polygon>
+<text text-anchor="middle" x="295.46" y="-438.62" font-family="Times,serif" font-size="14.00">Logs</text>
+</g>
+<!-- User&#45;&#45;Logs -->
+<g id="edge31" class="edge">
+<title>User--Logs</title>
+<path fill="none" stroke="black" d="M313.04,-346.16C309.06,-368.04 302.43,-404.49 298.55,-425.83"></path>
+<text text-anchor="middle" x="302.29" y="-390.19" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- Achieves -->
+<g id="node36" class="node">
+<title>Achieves</title>
+<polygon fill="lightgrey" stroke="lightgrey" points="359.57,-230.61 293.23,-212.61 359.57,-194.61 425.91,-212.61 359.57,-230.61"></polygon>
+<text text-anchor="middle" x="359.57" y="-208.41" font-family="Times,serif" font-size="14.00">Achieves</text>
+</g>
+<!-- User&#45;&#45;Achieves -->
+<g id="edge35" class="edge">
+<title>User--Achieves</title>
+<path fill="none" stroke="black" d="M323.1,-309.93C331.41,-287.76 345.4,-250.42 353.42,-229.01"></path>
+<text text-anchor="middle" x="334.76" y="-256.87" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- Workout -->
+<g id="node2" class="node">
+<title>Workout</title>
+<polygon fill="lightyellow" stroke="lightyellow" points="445.7,-486.9 380.17,-486.9 380.17,-450.9 445.7,-450.9 445.7,-486.9"></polygon>
+<text text-anchor="middle" x="412.93" y="-464.7" font-family="Times,serif" font-size="14.00">Workout</text>
+</g>
+<!-- Workout&#45;&#45;Performs -->
+<g id="edge30" class="edge">
+<title>Workout--Performs</title>
+<path fill="none" stroke="black" d="M409.55,-450.65C406.69,-435.23 402.63,-413.3 399.82,-398.15"></path>
+<text text-anchor="middle" x="401.18" y="-428.6" font-family="Times,serif" font-size="14.00">n</text>
+</g>
+<!-- Workout&#45;&#45;Logs -->
+<g id="edge34" class="edge">
+<title>Workout--Logs</title>
+<path fill="none" stroke="black" d="M379.9,-461.56C362.25,-457.65 340.76,-452.87 323.87,-449.12"></path>
+<text text-anchor="middle" x="348.38" y="-459.54" font-family="Times,serif" font-size="14.00">1</text>
+</g>
+<!-- Exercise -->
+<g id="node3" class="node">
+<title>Exercise</title>
+<polygon fill="lightyellow" stroke="lightyellow" points="206.12,-456.69 141.74,-456.69 141.74,-420.69 206.12,-420.69 206.12,-456.69"></polygon>
+<text text-anchor="middle" x="173.93" y="-434.49" font-family="Times,serif" font-size="14.00">Exercise</text>
+</g>
+<!-- Exercise&#45;&#45;Logs -->
+<g id="edge33" class="edge">
+<title>Exercise--Logs</title>
+<path fill="none" stroke="black" d="M206.18,-439.79C221.37,-440.3 239.63,-440.92 255.67,-441.47"></path>
+<text text-anchor="middle" x="227.43" y="-444.83" font-family="Times,serif" font-size="14.00">n</text>
+</g>
+<!-- ExercisePerformance -->
+<g id="node4" class="node">
+<title>ExercisePerformance</title>
+<polygon fill="lightyellow" stroke="lightyellow" points="348.74,-570.55 213.32,-570.55 213.32,-534.55 348.74,-534.55 348.74,-570.55"></polygon>
+<text text-anchor="middle" x="281.03" y="-548.35" font-family="Times,serif" font-size="14.00">ExercisePerformance</text>
+</g>
+<!-- ExercisePerformance&#45;&#45;Logs -->
+<g id="edge32" class="edge">
+<title>ExercisePerformance--Logs</title>
+<path fill="none" stroke="black" d="M283.42,-534.43C286.14,-513.73 290.56,-480.12 293.22,-459.88"></path>
+<text text-anchor="middle" x="284.82" y="-501.35" font-family="Times,serif" font-size="14.00">n</text>
+</g>
+<!-- Goal -->
+<g id="node5" class="node">
+<title>Goal</title>
+<polygon fill="lightyellow" stroke="lightyellow" points="419.59,-130.45 365.59,-130.45 365.59,-94.45 419.59,-94.45 419.59,-130.45"></polygon>
+<text text-anchor="middle" x="392.59" y="-108.25" font-family="Times,serif" font-size="14.00">Goal</text>
+</g>
+<!-- Goal&#45;&#45;Achieves -->
+<g id="edge36" class="edge">
+<title>Goal--Achieves</title>
+<path fill="none" stroke="black" d="M386.53,-130.82C380.39,-149.45 370.96,-178.04 365.04,-196.01"></path>
+<text text-anchor="middle" x="372.29" y="-167.62" font-family="Times,serif" font-size="14.00">n</text>
+</g>
+<!-- user_id -->
+<g id="node6" class="node">
+<title>user_id</title>
+<ellipse fill="none" stroke="lightblue" cx="246.76" cy="-331.32" rx="39.43" ry="18"></ellipse>
+<text text-anchor="middle" x="246.76" y="-327.12" font-family="Times,serif" font-size="14.00">user_id</text>
+</g>
+<!-- user_id&#45;&#45;User -->
+<g id="edge1" class="edge">
+<title>user_id--User</title>
+<path fill="none" stroke="black" d="M286.03,-329.42C287.14,-329.37 288.24,-329.32 289.34,-329.26"></path>
+</g>
+<!-- name -->
+<g id="node7" class="node">
+<title>name</title>
+<ellipse fill="none" stroke="lightblue" cx="218.08" cy="-288.17" rx="31.9" ry="18"></ellipse>
+<text text-anchor="middle" x="218.08" y="-283.97" font-family="Times,serif" font-size="14.00">name</text>
+</g>
+<!-- name&#45;&#45;User -->
+<g id="edge2" class="edge">
+<title>name--User</title>
+<path fill="none" stroke="black" d="M244.16,-298.72C258.03,-304.34 275.08,-311.24 289.12,-316.93"></path>
+</g>
+<!-- age -->
+<g id="node8" class="node">
+<title>age</title>
+<ellipse fill="none" stroke="lightblue" cx="413.2" cy="-311.95" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="413.2" y="-307.75" font-family="Times,serif" font-size="14.00">age</text>
+</g>
+<!-- age&#45;&#45;User -->
+<g id="edge3" class="edge">
+<title>age--User</title>
+<path fill="none" stroke="black" d="M386.99,-316.28C373.54,-318.5 357.18,-321.21 343.59,-323.45"></path>
+</g>
+<!-- weight -->
+<g id="node9" class="node">
+<title>weight</title>
+<ellipse fill="none" stroke="lightblue" cx="239.64" cy="-248.87" rx="37.14" ry="18"></ellipse>
+<text text-anchor="middle" x="239.64" y="-244.67" font-family="Times,serif" font-size="14.00">weight</text>
+</g>
+<!-- weight&#45;&#45;User -->
+<g id="edge4" class="edge">
+<title>weight--User</title>
+<path fill="none" stroke="black" d="M255.53,-265.25C268.17,-278.28 285.83,-296.5 298.87,-309.94"></path>
+</g>
+<!-- fitness_goal -->
+<g id="node10" class="node">
+<title>fitness_goal</title>
+<ellipse fill="none" stroke="lightblue" cx="374.13" cy="-287.13" rx="57.91" ry="18"></ellipse>
+<text text-anchor="middle" x="374.13" y="-282.93" font-family="Times,serif" font-size="14.00">fitness_goal</text>
+</g>
+<!-- fitness_goal&#45;&#45;User -->
+<g id="edge5" class="edge">
+<title>fitness_goal--User</title>
+<path fill="none" stroke="black" d="M350.63,-303.73C347.75,-305.76 344.8,-307.85 341.9,-309.9"></path>
+</g>
+<!-- email -->
+<g id="node11" class="node">
+<title>email</title>
+<ellipse fill="none" stroke="lightblue" cx="290.31" cy="-254.89" rx="32.47" ry="18"></ellipse>
+<text text-anchor="middle" x="290.31" y="-250.69" font-family="Times,serif" font-size="14.00">email</text>
+</g>
+<!-- email&#45;&#45;User -->
+<g id="edge6" class="edge">
+<title>email--User</title>
+<path fill="none" stroke="black" d="M296.61,-272.58C300.65,-283.9 305.87,-298.54 309.92,-309.92"></path>
+</g>
+<!-- workout_id -->
+<g id="node12" class="node">
+<title>workout_id</title>
+<ellipse fill="none" stroke="lightblue" cx="433.05" cy="-556.52" rx="55.63" ry="18"></ellipse>
+<text text-anchor="middle" x="433.05" y="-552.32" font-family="Times,serif" font-size="14.00">workout_id</text>
+</g>
+<!-- workout_id&#45;&#45;Workout -->
+<g id="edge7" class="edge">
+<title>workout_id--Workout</title>
+<path fill="none" stroke="black" d="M428.88,-538.36C425.43,-523.32 420.55,-502.06 417.1,-487.03"></path>
+</g>
+<!-- date -->
+<g id="node13" class="node">
+<title>date</title>
+<ellipse fill="none" stroke="lightblue" cx="521.91" cy="-462.4" rx="27.24" ry="18"></ellipse>
+<text text-anchor="middle" x="521.91" y="-458.2" font-family="Times,serif" font-size="14.00">date</text>
+</g>
+<!-- date&#45;&#45;Workout -->
+<g id="edge8" class="edge">
+<title>date--Workout</title>
+<path fill="none" stroke="black" d="M494.69,-464.02C479.94,-464.9 461.59,-466 446.02,-466.92"></path>
+</g>
+<!-- duration -->
+<g id="node14" class="node">
+<title>duration</title>
+<ellipse fill="none" stroke="lightblue" cx="508.87" cy="-510.17" rx="43.44" ry="18"></ellipse>
+<text text-anchor="middle" x="508.87" y="-505.97" font-family="Times,serif" font-size="14.00">duration</text>
+</g>
+<!-- duration&#45;&#45;Workout -->
+<g id="edge9" class="edge">
+<title>duration--Workout</title>
+<path fill="none" stroke="black" d="M478.78,-497.22C468.34,-492.73 456.58,-487.67 445.92,-483.09"></path>
+</g>
+<!-- workout_type -->
+<g id="node15" class="node">
+<title>workout_type</title>
+<ellipse fill="none" stroke="lightblue" cx="482.14" cy="-553.71" rx="64.86" ry="18"></ellipse>
+<text text-anchor="middle" x="482.14" y="-549.51" font-family="Times,serif" font-size="14.00">workout_type</text>
+</g>
+<!-- workout_type&#45;&#45;Workout -->
+<g id="edge10" class="edge">
+<title>workout_type--Workout</title>
+<path fill="none" stroke="black" d="M467.8,-536.14C456.08,-521.78 439.57,-501.55 427.73,-487.03"></path>
+</g>
+<!-- calories_burned -->
+<g id="node16" class="node">
+<title>calories_burned</title>
+<ellipse fill="none" stroke="lightblue" cx="501.95" cy="-419.5" rx="72.92" ry="18"></ellipse>
+<text text-anchor="middle" x="501.95" y="-415.3" font-family="Times,serif" font-size="14.00">calories_burned</text>
+</g>
+<!-- calories_burned&#45;&#45;Workout -->
+<g id="edge11" class="edge">
+<title>calories_burned--Workout</title>
+<path fill="none" stroke="black" d="M472.31,-435.95C463.71,-440.72 454.28,-445.95 445.51,-450.82"></path>
+</g>
+<!-- exercise_id -->
+<g id="node17" class="node">
+<title>exercise_id</title>
+<ellipse fill="none" stroke="lightblue" cx="111.11" cy="-360.09" rx="55.01" ry="18"></ellipse>
+<text text-anchor="middle" x="111.11" y="-355.89" font-family="Times,serif" font-size="14.00">exercise_id</text>
+</g>
+<!-- exercise_id&#45;&#45;Exercise -->
+<g id="edge12" class="edge">
+<title>exercise_id--Exercise</title>
+<path fill="none" stroke="black" d="M125.05,-377.54C135.24,-390.29 149.04,-407.55 159.37,-420.48"></path>
+</g>
+<!-- exercise_name -->
+<g id="node18" class="node">
+<title>exercise_name</title>
+<ellipse fill="none" stroke="lightblue" cx="124.92" cy="-519.91" rx="31.9" ry="18"></ellipse>
+<text text-anchor="middle" x="124.92" y="-515.71" font-family="Times,serif" font-size="14.00">name</text>
+</g>
+<!-- exercise_name&#45;&#45;Exercise -->
+<g id="edge13" class="edge">
+<title>exercise_name--Exercise</title>
+<path fill="none" stroke="black" d="M135.31,-502.69C143.46,-489.18 154.77,-470.45 163.04,-456.74"></path>
+</g>
+<!-- exercise_type -->
+<g id="node19" class="node">
+<title>exercise_type</title>
+<ellipse fill="none" stroke="lightblue" cx="71.14" cy="-443.03" rx="27.83" ry="18"></ellipse>
+<text text-anchor="middle" x="71.14" y="-438.83" font-family="Times,serif" font-size="14.00">type</text>
+</g>
+<!-- exercise_type&#45;&#45;Exercise -->
+<g id="edge14" class="edge">
+<title>exercise_type--Exercise</title>
+<path fill="none" stroke="black" d="M98.95,-441.86C112.15,-441.3 128,-440.63 141.72,-440.05"></path>
+</g>
+<!-- muscle_group -->
+<g id="node20" class="node">
+<title>muscle_group</title>
+<ellipse fill="none" stroke="lightblue" cx="81.54" cy="-494.99" rx="66" ry="18"></ellipse>
+<text text-anchor="middle" x="81.54" y="-490.79" font-family="Times,serif" font-size="14.00">muscle_group</text>
+</g>
+<!-- muscle_group&#45;&#45;Exercise -->
+<g id="edge15" class="edge">
+<title>muscle_group--Exercise</title>
+<path fill="none" stroke="black" d="M108.76,-478.41C119.94,-471.59 132.91,-463.69 144.33,-456.73"></path>
+</g>
+<!-- equipment_used -->
+<g id="node21" class="node">
+<title>equipment_used</title>
+<ellipse fill="none" stroke="lightblue" cx="74.33" cy="-391.15" rx="74.16" ry="18"></ellipse>
+<text text-anchor="middle" x="74.33" y="-386.95" font-family="Times,serif" font-size="14.00">equipment_used</text>
+</g>
+<!-- equipment_used&#45;&#45;Exercise -->
+<g id="edge16" class="edge">
+<title>equipment_used--Exercise</title>
+<path fill="none" stroke="black" d="M108.05,-407.25C118.89,-412.42 130.86,-418.14 141.59,-423.26"></path>
+</g>
+<!-- performance_id -->
+<g id="node22" class="node">
+<title>performance_id</title>
+<ellipse fill="none" stroke="lightblue" cx="196.23" cy="-573.65" rx="72.33" ry="18"></ellipse>
+<text text-anchor="middle" x="196.23" y="-569.45" font-family="Times,serif" font-size="14.00">performance_id</text>
+</g>
+<!-- performance_id&#45;&#45;ExercisePerformance -->
+<g id="edge17" class="edge">
+<title>performance_id--ExercisePerformance</title>
+<path fill="none" stroke="black" d="M247.52,-560.89C247.66,-560.85 247.8,-560.82 247.93,-560.78"></path>
+</g>
+<!-- sets -->
+<g id="node23" class="node">
+<title>sets</title>
+<ellipse fill="none" stroke="lightblue" cx="244.02" cy="-648.07" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="244.02" y="-643.87" font-family="Times,serif" font-size="14.00">sets</text>
+</g>
+<!-- sets&#45;&#45;ExercisePerformance -->
+<g id="edge18" class="edge">
+<title>sets--ExercisePerformance</title>
+<path fill="none" stroke="black" d="M250.81,-630.55C257.4,-613.53 267.37,-587.81 274.04,-570.61"></path>
+</g>
+<!-- reps -->
+<g id="node24" class="node">
+<title>reps</title>
+<ellipse fill="none" stroke="lightblue" cx="294.15" cy="-656.01" rx="27.25" ry="18"></ellipse>
+<text text-anchor="middle" x="294.15" y="-651.81" font-family="Times,serif" font-size="14.00">reps</text>
+</g>
+<!-- reps&#45;&#45;ExercisePerformance -->
+<g id="edge19" class="edge">
+<title>reps--ExercisePerformance</title>
+<path fill="none" stroke="black" d="M291.87,-637.99C289.47,-619.11 285.74,-589.63 283.34,-570.71"></path>
+</g>
+<!-- weight_lifted -->
+<g id="node25" class="node">
+<title>weight_lifted</title>
+<ellipse fill="none" stroke="lightblue" cx="197.83" cy="-623.74" rx="37.14" ry="18"></ellipse>
+<text text-anchor="middle" x="197.83" y="-619.54" font-family="Times,serif" font-size="14.00">weight</text>
+</g>
+<!-- weight_lifted&#45;&#45;ExercisePerformance -->
+<g id="edge20" class="edge">
+<title>weight_lifted--ExercisePerformance</title>
+<path fill="none" stroke="black" d="M216.29,-607.94C229.22,-596.88 246.52,-582.08 259.98,-570.56"></path>
+</g>
+<!-- time -->
+<g id="node26" class="node">
+<title>time</title>
+<ellipse fill="none" stroke="lightblue" cx="352.83" cy="-596.47" rx="28.4" ry="18"></ellipse>
+<text text-anchor="middle" x="352.83" y="-592.27" font-family="Times,serif" font-size="14.00">time</text>
+</g>
+<!-- time&#45;&#45;ExercisePerformance -->
+<g id="edge21" class="edge">
+<title>time--ExercisePerformance</title>
+<path fill="none" stroke="black" d="M332.45,-584C325.65,-579.84 317.93,-575.12 310.58,-570.62"></path>
+</g>
+<!-- heart_rate -->
+<g id="node27" class="node">
+<title>heart_rate</title>
+<ellipse fill="none" stroke="lightblue" cx="347.44" cy="-644.83" rx="49.77" ry="18"></ellipse>
+<text text-anchor="middle" x="347.44" y="-640.63" font-family="Times,serif" font-size="14.00">heart_rate</text>
+</g>
+<!-- heart_rate&#45;&#45;ExercisePerformance -->
+<g id="edge22" class="edge">
+<title>heart_rate--ExercisePerformance</title>
+<path fill="none" stroke="black" d="M334.64,-627.04C322.95,-610.8 305.77,-586.92 294.02,-570.6"></path>
+</g>
+<!-- goal_id -->
+<g id="node28" class="node">
+<title>goal_id</title>
+<ellipse fill="none" stroke="lightblue" cx="296.23" cy="-59.13" rx="40.01" ry="18"></ellipse>
+<text text-anchor="middle" x="296.23" y="-54.93" font-family="Times,serif" font-size="14.00">goal_id</text>
+</g>
+<!-- goal_id&#45;&#45;Goal -->
+<g id="edge23" class="edge">
+<title>goal_id--Goal</title>
+<path fill="none" stroke="black" d="M321.54,-73.14C335.04,-80.61 351.65,-89.8 365.41,-97.41"></path>
+</g>
+<!-- description -->
+<g id="node29" class="node">
+<title>description</title>
+<ellipse fill="none" stroke="lightblue" cx="392.68" cy="-18" rx="53.89" ry="18"></ellipse>
+<text text-anchor="middle" x="392.68" y="-13.8" font-family="Times,serif" font-size="14.00">description</text>
+</g>
+<!-- description&#45;&#45;Goal -->
+<g id="edge24" class="edge">
+<title>description--Goal</title>
+<path fill="none" stroke="black" d="M392.66,-36.21C392.64,-52.94 392.62,-77.59 392.6,-94.29"></path>
+</g>
+<!-- target -->
+<g id="node30" class="node">
+<title>target</title>
+<ellipse fill="none" stroke="lightblue" cx="451.87" cy="-38.41" rx="33.04" ry="18"></ellipse>
+<text text-anchor="middle" x="451.87" y="-34.21" font-family="Times,serif" font-size="14.00">target</text>
+</g>
+<!-- target&#45;&#45;Goal -->
+<g id="edge25" class="edge">
+<title>target--Goal</title>
+<path fill="none" stroke="black" d="M438.42,-55.21C429.06,-66.9 416.59,-82.47 407.02,-94.42"></path>
+</g>
+<!-- progress -->
+<g id="node31" class="node">
+<title>progress</title>
+<ellipse fill="none" stroke="lightblue" cx="499.46" cy="-128.86" rx="43.51" ry="18"></ellipse>
+<text text-anchor="middle" x="499.46" y="-124.66" font-family="Times,serif" font-size="14.00">progress</text>
+</g>
+<!-- progress&#45;&#45;Goal -->
+<g id="edge26" class="edge">
+<title>progress--Goal</title>
+<path fill="none" stroke="black" d="M458.45,-122.56C445.5,-120.57 431.51,-118.43 419.78,-116.62"></path>
+</g>
+<!-- start_date -->
+<g id="node32" class="node">
+<title>start_date</title>
+<ellipse fill="none" stroke="lightblue" cx="492.84" cy="-79.77" rx="48.65" ry="18"></ellipse>
+<text text-anchor="middle" x="492.84" y="-75.57" font-family="Times,serif" font-size="14.00">start_date</text>
+</g>
+<!-- start_date&#45;&#45;Goal -->
+<g id="edge27" class="edge">
+<title>start_date--Goal</title>
+<path fill="none" stroke="black" d="M456.36,-91.66C444.27,-95.6 431.03,-99.92 419.76,-103.59"></path>
+</g>
+<!-- end_date -->
+<g id="node33" class="node">
+<title>end_date</title>
+<ellipse fill="none" stroke="lightblue" cx="334.48" cy="-26.3" rx="45.78" ry="18"></ellipse>
+<text text-anchor="middle" x="334.48" y="-22.1" font-family="Times,serif" font-size="14.00">end_date</text>
+</g>
+<!-- end_date&#45;&#45;Goal -->
+<g id="edge28" class="edge">
+<title>end_date--Goal</title>
+<path fill="none" stroke="black" d="M346.24,-43.73C356.19,-58.48 370.39,-79.54 380.45,-94.45"></path>
+</g>
+</g>
+</svg>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chen-prtracker-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Chen Diagram for PRTracker Application
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Crow’s Foot Notation for Detailed Data Relationships:</strong></li>
+</ul>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">erDiagram
+
+    USER {
+        int userID
+        string name
+        int age
+        float weight
+        string fitnessGoal
+        string email
+    }
+
+    WORKOUT {
+        int workoutID
+        date date
+        int duration
+        string workoutType
+        float caloriesBurned
+    }
+
+    EXERCISE {
+        int exerciseID
+        string name
+        string type
+        string muscleGroup
+        string equipmentUsed
+    }
+
+    EXERCISE_PERFORMANCE {
+        int performanceID
+        int sets
+        int reps
+        float weight
+        time time
+        int heartRate
+    }
+
+    GOAL {
+        int goalID
+        string description
+        float target
+        float progress
+        date startDate
+        date endDate
+    }
+
+    USER ||--o{ WORKOUT : "performs"
+    WORKOUT ||--o{ EXERCISE_PERFORMANCE : "logs"
+    EXERCISE ||--o{ EXERCISE_PERFORMANCE : "is performed in"
+    USER ||--o{ GOAL : "sets"
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>Relational Schemas:</strong></p>
+<p>The proposed database schema includes the following relations:</p>
+<ol type="1">
+<li><p><strong>User (user_id, name, age, weight, fitness_goal, email)</strong><br>
+Primary Key: <code>user_id</code></p></li>
+<li><p><strong>Workout (workout_id, user_id, date, duration, workout_type, calories_burned)</strong><br>
+Primary Key: <code>workout_id</code><br>
+Foreign Key: <code>user_id</code> (references <code>User.user_id</code>)</p></li>
+<li><p><strong>Exercise (exercise_id, name, exercise_type, muscle_group, equipment_used)</strong><br>
+Primary Key: <code>exercise_id</code></p></li>
+<li><p><strong>ExercisePerformance (performance_id, workout_id, exercise_id, sets, reps, weight, time, heart_rate)</strong><br>
+Primary Key: <code>performance_id</code><br>
+Foreign Keys: <code>workout_id</code> (references <code>Workout.workout_id</code>), <code>exercise_id</code> (references <code>Exercise.exercise_id</code>)</p></li>
+<li><p><strong>Goal (goal_id, user_id, description, target, progress, start_date, end_date)</strong><br>
+Primary Key: <code>goal_id</code><br>
+Foreign Key: <code>user_id</code> (references <code>User.user_id</code>)</p></li>
+</ol>
+<p><strong>Functional Dependencies and Normalization:</strong></p>
+<p>All relations have been decomposed into BCNF/4NF to ensure that they are free of anomalies and provide lossless decomposition. Functional dependencies were considered to ensure minimal redundancy and maintain data integrity. Each relation is designed to support efficient querying while avoiding common pitfalls such as update and deletion anomalies.</p>
+<ol type="1">
+<li><p><strong>Retrieve all the workout sessions for a specific user.</strong><br>
+[ _{user_id = 1}() ]</p></li>
+<li><p><strong>Find all the exercises performed by a specific user during a workout session.</strong><br>
+[ <em>{exercise_id, , name}(</em>{user_id = 1}() ) ]</p></li>
+<li><p><strong>List all the exercises performed on a specific date.</strong><br>
+[ <em>{exercise_id, , name}(</em>{date = “2024-09-15”}() ) ]</p></li>
+<li><p><strong>Find the total number of workouts completed by each user.</strong><br>
+[ _{user_id, , COUNT(workout_id) total_workouts}() ]</p></li>
+<li><p><strong>Get a list of users who performed more than 5 workouts.</strong><br>
+[ <em>{total_workouts &gt; 5}(</em>{user_id, , COUNT(workout_id) total_workouts}()) ]</p></li>
+<li><p><strong>Find all unique workout types and their respective durations.</strong><br>
+[ _{workout_type, , duration}() ]</p></li>
+<li><p><strong>Retrieve a list of exercises that target a specific muscle group, like <code>Chest</code>.</strong><br>
+[ <em>{name}(</em>{muscle_group = “Chest”}()) ]</p></li>
+<li><p><strong>Find all users who have a fitness goal of <code>Lose weight</code>.</strong><br>
+[ <em>{name, , email}(</em>{fitness_goal = “Lose weight”}()) ]</p></li>
+<li><p><strong>List all the sets and reps performed for a particular exercise during a workout.</strong><br>
+[ <em>{sets, , reps}(</em>{exercise_id = 1}()) ]</p></li>
+<li><p><strong>Find the average calories burned per workout for each user.</strong><br>
+[ _{user_id, , AVG(calories_burned)}() ]</p></li>
+</ol>
+</section>
+</section>
+<section id="user-specific-queries" class="level2">
+<h2 class="anchored" data-anchor-id="user-specific-queries">User-Specific Queries</h2>
+<ol start="11" type="1">
+<li><p><strong>Find all users who have achieved their fitness goals.</strong><br>
+[ <em>{name, , email}(</em>{target = progress}() ) ]</p></li>
+<li><p><strong>Retrieve the current weight of users who want to <code>Gain muscle mass</code>.</strong><br>
+[ <em>{name, , weight}(</em>{fitness_goal = “Gain muscle mass”}()) ]</p></li>
+<li><p><strong>Find all users whose membership date is before a specific date (e.g., <code>2024-01-01</code>).</strong><br>
+[ <em>{name, , membership_date}(</em>{membership_date &lt; “2024-01-01”}()) ]</p></li>
+<li><p><strong>Get a list of users along with the number of goals they have set.</strong><br>
+[ _{user_id, , COUNT(goal_id) total_goals}() ]</p></li>
+<li><p><strong>List users along with their most recent workout date.</strong><br>
+[ _{user_id, , MAX(date) recent_workout}() ]</p></li>
+</ol>
+</section>
+<section id="trainer-specific-queries" class="level2">
+<h2 class="anchored" data-anchor-id="trainer-specific-queries">Trainer-Specific Queries</h2>
+<ol start="16" type="1">
+<li><p><strong>Find the maximum weight lifted for each exercise performed by a specific user.</strong><br>
+[ <em>{exercise_id, , MAX(weight)}(</em>{user_id = 1}()) ]</p></li>
+<li><p><strong>Get a list of all workouts that include an exercise targeting a specific muscle group (e.g., <code>Legs</code>).</strong><br>
+[ <em>{workout_id, , date}(</em>{muscle_group = “Legs”}() ) ]</p></li>
+<li><p><strong>Retrieve the total number of sets performed by a user for a particular exercise over all workouts.</strong><br>
+[ <em>{user_id, , SUM(sets) total_sets}(</em>{exercise_id = 1}()) ]</p></li>
+<li><p><strong>Find the exercises that were not performed in any workout.</strong><br>
+[ - _{exercise_id}() ]</p></li>
+<li><p><strong>Retrieve a list of users who have not set any fitness goals.</strong><br>
+[ <em>{name, , email}() - </em>{user_id}() ]</p></li>
+</ol>
+<section id="explanation-of-relational-algebra-notations" class="level3">
+<h3 class="anchored" data-anchor-id="explanation-of-relational-algebra-notations">Explanation of Relational Algebra Notations</h3>
+<ul>
+<li><strong>Selection (<code>σ</code>)</strong>: Filters rows based on a given condition.</li>
+<li><strong>Projection (<code>π</code>)</strong>: Selects specific columns or attributes.</li>
+<li><strong>Join (<code>⨝</code>)</strong>: Combines rows from different tables based on a related attribute.</li>
+<li><strong>Aggregation (<code>γ</code>)</strong>: Groups rows and applies aggregate functions like <code>SUM</code>, <code>COUNT</code>, <code>MAX</code>, etc.</li>
+<li><strong>Set Difference (<code>-</code>)</strong>: Finds the difference between two relations (useful to identify rows that are in one table but not in another).</li>
+</ul>
+<p><strong>Sample Data:</strong></p>
+<p>Here’s a preview of the sample data for each relation:</p>
+<ul>
+<li><strong>User:</strong></li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 7%">
+<col style="width: 11%">
+<col style="width: 26%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>user_id</th>
+<th>name</th>
+<th>age</th>
+<th>weight</th>
+<th>fitness_goal</th>
+<th>email</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Alex</td>
+<td>23</td>
+<td>150</td>
+<td>Gain muscle mass</td>
+<td>alex@prtracker.com</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Jamie</td>
+<td>27</td>
+<td>165</td>
+<td>Lose weight</td>
+<td>jamie@prtracker.com</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Workout:</strong></li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 12%">
+<col style="width: 16%">
+<col style="width: 13%">
+<col style="width: 18%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>workout_id</th>
+<th>user_id</th>
+<th>date</th>
+<th>duration</th>
+<th>workout_type</th>
+<th>calories_burned</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td>2024-09-15</td>
+<td>60</td>
+<td>Strength</td>
+<td>500</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>2</td>
+<td>2024-09-16</td>
+<td>45</td>
+<td>Cardio</td>
+<td>350</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Exercise:</strong></li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 17%">
+<col style="width: 21%">
+<col style="width: 20%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>exercise_id</th>
+<th>name</th>
+<th>exercise_type</th>
+<th>muscle_group</th>
+<th>equipment_used</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Bench Press</td>
+<td>Strength</td>
+<td>Chest</td>
+<td>Barbell</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Squats</td>
+<td>Strength</td>
+<td>Legs</td>
+<td>Barbell</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>ExercisePerformance:</strong></li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 15%">
+<col style="width: 16%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 7%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>performance_id</th>
+<th>workout_id</th>
+<th>exercise_id</th>
+<th>sets</th>
+<th>reps</th>
+<th>weight</th>
+<th>time</th>
+<th>heart_rate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>3</td>
+<td>10</td>
+<td>135</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>4</td>
+<td>12</td>
+<td>185</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Goal:</strong></li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 25%">
+<col style="width: 10%">
+<col style="width: 12%">
+<col style="width: 15%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>goal_id</th>
+<th>user_id</th>
+<th>description</th>
+<th>target</th>
+<th>progress</th>
+<th>start_date</th>
+<th>end_date</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td>Gain 5 pounds</td>
+<td>155</td>
+<td>2</td>
+<td>2024-09-01</td>
+<td>2024-12-01</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>2</td>
+<td>Lose 10 pounds</td>
+<td>155</td>
+<td>3</td>
+<td>2024-09-01</td>
+<td>2024-12-01</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<section id="project-management" class="level4">
+<h4 class="anchored" data-anchor-id="project-management"><strong>Project Management</strong></h4>
+<p><strong>Draft Project Schedule:</strong></p>
+<p>To ensure that we meet the final project deadline of December 12, the following milestones have been set:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 49%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Start Date</th>
+<th>End Date</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Database Design &amp; ERD</td>
+<td>2024-09-01</td>
+<td>2024-09-20</td>
+<td>Completed</td>
+</tr>
+<tr class="even">
+<td>Relational Schema &amp; Normalization</td>
+<td>2024-09-21</td>
+<td>2024-10-01</td>
+<td>In Progress</td>
+</tr>
+<tr class="odd">
+<td>Implementation &amp; Testing</td>
+<td>2024-10-02</td>
+<td>2024-11-15</td>
+<td>Not Started</td>
+</tr>
+<tr class="even">
+<td>Documentation &amp; Video Creation</td>
+<td>2024-11-16</td>
+<td>2024-11-30</td>
+<td>Not Started</td>
+</tr>
+<tr class="odd">
+<td>Final Submission</td>
+<td>2024-12-01</td>
+<td>2024-12-12</td>
+<td>Not Started</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Gantt Chart:</strong></p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">gantt
+    title PRTracker Project Timeline
+    dateFormat  YYYY-MM-DD
+    axisFormat  %b %d
+
+    section Project Planning
+    Define Project Scope           :done,    scope, 2024-09-01, 2024-09-10
+    Initial ERD and Design Draft   :done,    erd,   2024-09-11, 2024-09-20
+
+    section Database Design and Implementation
+    Finalize ERD and Normalization :active,  finalize, 2024-09-21, 2024-10-01
+    Create Relational Schema       :active,  schema,  2024-09-25, 2024-10-05
+    Implement Database Schema      :         dbimpl,  2024-10-06, 2024-10-15
+    Data Insertion and Testing     :         datains, 2024-10-16, 2024-10-25
+
+    section Application Development
+    Create Backend Services        :         backend, 2024-10-26, 2024-11-05
+    Develop Frontend UI            :         frontend,2024-11-06, 2024-11-15
+    Integrate Backend and Frontend :         integrate,2024-11-16, 2024-11-25
+
+    section Testing and Refinement
+    Functional Testing             :         testing, 2024-11-26, 2024-12-05
+    Final Refinements              :         refine,  2024-12-06, 2024-12-10
+
+    section Final Submission
+    Create Documentation and Video :         docs,    2024-12-01, 2024-12-10
+    Submit Final Project           :         submit,  2024-12-11, 2024-12-12
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<hr>
+
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

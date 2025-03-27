@@ -1,0 +1,54 @@
+/* src/components/WorkoutPlan.css */
+
+.workout-plan-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .workout-plan-header {
+    font-size: 2em;
+    color: #b22222;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .workout-plan-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .workout-plan-form input,
+  .workout-plan-form textarea {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .workout-plan-form textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  .workout-plan-form button {
+    background-color: #b22222;
+    color: #ffffff;
+    font-size: 1.1em;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .workout-plan-form button:hover {
+    background-color: #8b0000;
+  }
+  

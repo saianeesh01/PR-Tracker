@@ -1,0 +1,9 @@
+pandas
+python-dotenv
+SQLAlchemy
+PyMySQL
+ipython
+tabulate
+flask
+flask-cors
+pymysql

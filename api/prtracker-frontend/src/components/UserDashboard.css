@@ -1,0 +1,72 @@
+/* UserDashboard.css */
+.dashboard-container {
+    background-color: #fff; /* White background */
+    color: #b30000; /* Red color for text */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .dashboard-header {
+    color: #b30000; /* Red color */
+    text-align: center;
+    font-size: 2rem;
+  }
+  
+  .logout-button, .trainer-button, .nutrition-button, .goal-form button, .workout-form button {
+    background-color: #b30000; /* Red background */
+    color: #fff; /* White text */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 5px;
+    font-weight: bold;
+  }
+  
+  .logout-button:hover, .trainer-button:hover, .nutrition-button:hover, .goal-form button:hover, .workout-form button:hover {
+    background-color: #800000; /* Darker red */
+  }
+  
+  .user-details, .trainer-details {
+    border: 1px solid #b30000;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  
+  .goals-section, .workouts-section {
+    margin-bottom: 20px;
+  }
+  
+  .goal-item, .workout-item {
+    border-bottom: 1px solid #b30000;
+    padding: 10px 0;
+  }
+  
+  .goal-edit, .goal-display, .workout-form, .goal-form {
+    margin-top: 10px;
+  }
+  
+  input {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #b30000;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .goal-form input, .workout-form input {
+    width: calc(100% - 20px);
+  }
+  
+  .goal-form, .workout-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  

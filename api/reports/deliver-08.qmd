@@ -1,0 +1,486 @@
+---
+title: "PRTracker"
+author: Aneesh Mussim"
+date: "2024-09-28"
+format: 
+  html:
+    math: true   # Enable math rendering in HTML format
+---
+
+### PRTracker Database Design
+
+#### **Project Overview and Key Deliverables**
+**Project Name:** PRTracker
+
+**Description:**  
+PRTracker is a workout log database application that helps users track workouts, exercises, and performance metrics such as sets, reps, weight lifted, and calories burned. It supports goal setting and progress tracking, making it ideal for both individuals and personal trainers to manage and optimize fitness routines efficiently.
+
+**Project Deliverables:**
+
+- **Pitch Video:** [[URL to Pitch Video](https://vcu.zoom.us/rec/share/gascYdsbK6lqeeTMTMOQ3bQaF_fnZxWFh8HHY_qqIAxMjVpi8BC8G21l77p-KOjw.8zr0bD4BpXU7E9Vu?startTime=1726086844000)]
+  
+- **Design Video:** [[URL to Design Video](https://vcu.zoom.us/rec/share/AynzXwFPb3BSq2AtpVeXSPpvYbUTcsufQmkGq_33c9vWCduvds1r1TuOdiPCHA31.oK6kNMKYpt2zrY0O?startTime=1727978668000)]
+  
+- **GitHub Repository:** [[URL to GitHub Repository](https://github.com/cmsc-vcu/cmsc408-fa2024-proj-prtracker)]
+
+---
+
+#### **Problem Description**
+
+**Problem Domain:**  
+Personal fitness is becoming increasingly important as people focus on maintaining their health and achieving specific fitness goals. Many individuals struggle to track their workouts effectively and measure their progress. PRTracker addresses these issues by providing a structured way to record workouts, analyze performance, and track progress over time.
+
+**Need:**  
+A database is necessary for this problem because it provides an organized, efficient way to manage and store workout data over time, solving the issues of manual tracking, inefficiency, and lack of insights. With a centralized database, users can visualize their progress and trainers can monitor their clients more effectively.
+
+**Context:**  
+The PRTracker database is designed for individuals and fitness professionals who need an organized way to track workouts and performance, helping users manage their fitness progress in detail.
+
+**Scope:**  
+The database focuses on logging workout sessions, exercises, performance metrics (e.g., sets, reps, weight, calories), and tracking fitness goals over time. It will support multiple users, including trainers monitoring clients.
+
+**Perspective:**  
+For individuals, the database helps track personal progress. For trainers, it aids in managing clients. For fitness enthusiasts, it provides detailed logs to optimize workouts.
+
+**Motivation:**  
+Our team chose this domain due to a shared interest in fitness and the challenges we’ve faced in manually tracking workouts. We believe it will offer real value to both individual users and fitness professionals.
+
+**User Roles and Use Cases:**
+1. **Individual Users:**  
+   - Track their personal workouts, exercises, and performance metrics.
+   - Set and monitor fitness goals.
+   - Analyze trends over time to make adjustments to workout plans.
+
+2. **Personal Trainers:**  
+   - Manage and track client workout routines.
+   - Review client progress and suggest changes based on tracked data.
+   - Set fitness goals for clients and monitor their achievement.
+
+3. **Administrators:**  
+   - Manage user roles and access controls.
+   - Ensure database security and privacy compliance.
+   - Perform data analytics for user engagement and system performance.
+
+**Security and Privacy:**  
+The design must address user authentication, data encryption, and access control to ensure that users’ personal and health information is protected. Authentication mechanisms will be implemented to confirm user identity, while access controls will limit data visibility and modification permissions based on user roles.
+
+---
+
+#### **Database Design**
+
+**Entity-Relationship Diagram (ERD):**
+
+The database design includes the following entities:
+
+1. **User:** Stores details about the individual using the application (e.g., user ID, name, age, weight, fitness goals).
+2. **Workout:** Represents the workout sessions (e.g., workout ID, date, duration, type of workout, total calories burned).
+3. **Exercise:** Contains information about individual exercises performed during a workout (e.g., exercise ID, name, type, muscle group, equipment used).
+4. **Exercise Performance:** Logs specific performance metrics for each exercise (e.g., sets, reps, weight lifted, distance, time, heart rate).
+5. **Goal:** Tracks fitness goals and progress (e.g., goal ID, description, target, progress, start date, end date).
+
+**ERD Design:**
+
+- **Chen Notation for High-Level Logical Architecture:**  
+  ```{dot}
+//| label: fig-chen-prtracker
+//| fig-cap: "Chen Diagram for PRTracker Application"
+//| fig-width: 100%
+graph ER {
+    fontname="Helvetica,Arial,sans-serif"
+    fontsize=30;   // Font size for the entire graph
+    labelloc="t";  // "t"op, "b"ottom, "c"enter of graph
+    labeljust="c"; // "l"eft, "c"enter, "r"ight
+
+    layout=neato;  // Auto place nodes with a force-directed layout
+    scale=1.2;     // Change size of shapes all at once
+
+    // Define entity nodes
+    node [shape=box, style=filled, color=lightyellow];
+    User [label="User"];
+    Workout [label="Workout"];
+    Exercise [label="Exercise"];
+    ExercisePerformance [label="ExercisePerformance"];
+    Goal [label="Goal"];
+
+    // Define attribute nodes for User
+    node [shape=ellipse, style=solid, color=lightblue];
+    user_id [label="user_id"];
+    name [label="name"];
+    age [label="age"];
+    weight [label="weight"];
+    fitness_goal [label="fitness_goal"];
+    email [label="email"];
+
+    // Define attribute nodes for Workout
+    workout_id [label="workout_id"];
+    date [label="date"];
+    duration [label="duration"];
+    workout_type [label="workout_type"];
+    calories_burned [label="calories_burned"];
+
+    // Define attribute nodes for Exercise
+    exercise_id [label="exercise_id"];
+    exercise_name [label="name"];
+    exercise_type [label="type"];
+    muscle_group [label="muscle_group"];
+    equipment_used [label="equipment_used"];
+
+    // Define attribute nodes for ExercisePerformance
+    performance_id [label="performance_id"];
+    sets [label="sets"];
+    reps [label="reps"];
+    weight_lifted [label="weight"];
+    time [label="time"];
+    heart_rate [label="heart_rate"];
+
+    // Define attribute nodes for Goal
+    goal_id [label="goal_id"];
+    description [label="description"];
+    target [label="target"];
+    progress [label="progress"];
+    start_date [label="start_date"];
+    end_date [label="end_date"];
+
+    // Define relationship nodes
+    node [shape=diamond, style=filled, color=lightgrey];
+    Performs [label="Performs"];
+    Logs [label="Logs"];
+    Achieves [label="Achieves"];
+
+    // Connect attributes to User entity
+    user_id -- User;
+    name -- User;
+    age -- User;
+    weight -- User;
+    fitness_goal -- User;
+    email -- User;
+
+    // Connect attributes to Workout entity
+    workout_id -- Workout;
+    date -- Workout;
+    duration -- Workout;
+    workout_type -- Workout;
+    calories_burned -- Workout;
+
+    // Connect attributes to Exercise entity
+    exercise_id -- Exercise;
+    exercise_name -- Exercise;
+    exercise_type -- Exercise;
+    muscle_group -- Exercise;
+    equipment_used -- Exercise;
+
+    // Connect attributes to ExercisePerformance entity
+    performance_id -- ExercisePerformance;
+    sets -- ExercisePerformance;
+    reps -- ExercisePerformance;
+    weight_lifted -- ExercisePerformance;
+    time -- ExercisePerformance;
+    heart_rate -- ExercisePerformance;
+
+    // Connect attributes to Goal entity
+    goal_id -- Goal;
+    description -- Goal;
+    target -- Goal;
+    progress -- Goal;
+    start_date -- Goal;
+    end_date -- Goal;
+
+    // Define relationships between entities
+    User -- Performs [label="1"];
+    Workout -- Performs [label="n"];
+    
+    User -- Logs [label="1"];
+    ExercisePerformance -- Logs [label="n"];
+    Exercise -- Logs [label="n"];
+    Workout -- Logs [label="1"];
+
+    User -- Achieves [label="1"];
+    Goal -- Achieves [label="n"];
+}
+```
+
+- **Crow's Foot Notation for Detailed Data Relationships:**  
+```{mermaid}
+erDiagram
+
+    USER {
+        int userID
+        string name
+        int age
+        float weight
+        string fitnessGoal
+        string email
+    }
+
+    WORKOUT {
+        int workoutID
+        date date
+        int duration
+        string workoutType
+        float caloriesBurned
+    }
+
+    EXERCISE {
+        int exerciseID
+        string name
+        string type
+        string muscleGroup
+        string equipmentUsed
+    }
+
+    EXERCISE_PERFORMANCE {
+        int performanceID
+        int sets
+        int reps
+        float weight
+        time time
+        int heartRate
+    }
+
+    GOAL {
+        int goalID
+        string description
+        float target
+        float progress
+        date startDate
+        date endDate
+    }
+
+    USER ||--o{ WORKOUT : "performs"
+    WORKOUT ||--o{ EXERCISE_PERFORMANCE : "logs"
+    EXERCISE ||--o{ EXERCISE_PERFORMANCE : "is performed in"
+    USER ||--o{ GOAL : "sets"
+```
+
+**Relational Schemas:**
+
+The proposed database schema includes the following relations:
+
+1. **User (user_id, name, age, weight, fitness_goal, email)**  
+   Primary Key: `user_id`
+
+2. **Workout (workout_id, user_id, date, duration, workout_type, calories_burned)**  
+   Primary Key: `workout_id`  
+   Foreign Key: `user_id` (references `User.user_id`)
+
+3. **Exercise (exercise_id, name, exercise_type, muscle_group, equipment_used)**  
+   Primary Key: `exercise_id`
+
+4. **ExercisePerformance (performance_id, workout_id, exercise_id, sets, reps, weight, time, heart_rate)**  
+   Primary Key: `performance_id`  
+   Foreign Keys: `workout_id` (references `Workout.workout_id`), `exercise_id` (references `Exercise.exercise_id`)
+
+5. **Goal (goal_id, user_id, description, target, progress, start_date, end_date)**  
+   Primary Key: `goal_id`  
+   Foreign Key: `user_id` (references `User.user_id`)
+
+**Functional Dependencies and Normalization:**
+
+All relations have been decomposed into BCNF/4NF to ensure that they are free of anomalies and provide lossless decomposition. Functional dependencies were considered to ensure minimal redundancy and maintain data integrity. Each relation is designed to support efficient querying while avoiding common pitfalls such as update and deletion anomalies.
+
+
+
+
+1. **Retrieve all the workout sessions for a specific user.**  
+   \[
+   \sigma_{user\_id = 1}(\text{Workout})
+   \]
+
+2. **Find all the exercises performed by a specific user during a workout session.**  
+   \[
+   \pi_{exercise\_id, \, name}(\sigma_{user\_id = 1}(\text{Workout}) \Join \text{ExercisePerformance} \Join \text{Exercise})
+   \]
+
+3. **List all the exercises performed on a specific date.**  
+   \[
+   \pi_{exercise\_id, \, name}(\sigma_{date = "2024-09-15"}(\text{Workout}) \Join \text{ExercisePerformance} \Join \text{Exercise})
+   \]
+
+4. **Find the total number of workouts completed by each user.**  
+   \[
+   \gamma_{user\_id, \, COUNT(workout\_id) \rightarrow total\_workouts}(\text{Workout})
+   \]
+
+5. **Get a list of users who performed more than 5 workouts.**  
+   \[
+   \sigma_{total\_workouts > 5}(\gamma_{user\_id, \, COUNT(workout\_id) \rightarrow total\_workouts}(\text{Workout}))
+   \]
+
+6. **Find all unique workout types and their respective durations.**  
+   \[
+   \pi_{workout\_type, \, duration}(\text{Workout})
+   \]
+
+7. **Retrieve a list of exercises that target a specific muscle group, like `Chest`.**  
+   \[
+   \pi_{name}(\sigma_{muscle\_group = "Chest"}(\text{Exercise}))
+   \]
+
+8. **Find all users who have a fitness goal of `Lose weight`.**  
+   \[
+   \pi_{name, \, email}(\sigma_{fitness\_goal = "Lose weight"}(\text{User}))
+   \]
+
+9. **List all the sets and reps performed for a particular exercise during a workout.**  
+   \[
+   \pi_{sets, \, reps}(\sigma_{exercise\_id = 1}(\text{ExercisePerformance}))
+   \]
+
+10. **Find the average calories burned per workout for each user.**  
+    \[
+    \gamma_{user\_id, \, AVG(calories\_burned)}(\text{Workout})
+    \]
+
+## User-Specific Queries
+
+11. **Find all users who have achieved their fitness goals.**  
+    \[
+    \pi_{name, \, email}(\sigma_{target = progress}(\text{Goal}) \Join \text{User})
+    \]
+
+12. **Retrieve the current weight of users who want to `Gain muscle mass`.**  
+    \[
+    \pi_{name, \, weight}(\sigma_{fitness\_goal = "Gain muscle mass"}(\text{User}))
+    \]
+
+13. **Find all users whose membership date is before a specific date (e.g., `2024-01-01`).**  
+    \[
+    \pi_{name, \, membership\_date}(\sigma_{membership\_date < "2024-01-01"}(\text{User}))
+    \]
+
+14. **Get a list of users along with the number of goals they have set.**  
+    \[
+    \gamma_{user\_id, \, COUNT(goal\_id) \rightarrow total\_goals}(\text{Goal})
+    \]
+
+15. **List users along with their most recent workout date.**  
+    \[
+    \gamma_{user\_id, \, MAX(date) \rightarrow recent\_workout}(\text{Workout})
+    \]
+
+## Trainer-Specific Queries
+
+16. **Find the maximum weight lifted for each exercise performed by a specific user.**  
+    \[
+    \gamma_{exercise\_id, \, MAX(weight)}(\sigma_{user\_id = 1}(\text{ExercisePerformance}))
+    \]
+
+17. **Get a list of all workouts that include an exercise targeting a specific muscle group (e.g., `Legs`).**  
+    \[
+    \pi_{workout\_id, \, date}(\sigma_{muscle\_group = "Legs"}(\text{Exercise}) \Join \text{ExercisePerformance} \Join \text{Workout})
+    \]
+
+18. **Retrieve the total number of sets performed by a user for a particular exercise over all workouts.**  
+    \[
+    \gamma_{user\_id, \, SUM(sets) \rightarrow total\_sets}(\sigma_{exercise\_id = 1}(\text{ExercisePerformance}))
+    \]
+
+19. **Find the exercises that were not performed in any workout.**  
+    \[
+    \text{Exercise} - \pi_{exercise\_id}(\text{ExercisePerformance})
+    \]
+
+20. **Retrieve a list of users who have not set any fitness goals.**  
+    \[
+    \pi_{name, \, email}(\text{User}) - \pi_{user\_id}(\text{Goal})
+    \]
+
+### Explanation of Relational Algebra Notations
+- **Selection (`σ`)**: Filters rows based on a given condition.
+- **Projection (`π`)**: Selects specific columns or attributes.
+- **Join (`⨝`)**: Combines rows from different tables based on a related attribute.
+- **Aggregation (`γ`)**: Groups rows and applies aggregate functions like `SUM`, `COUNT`, `MAX`, etc.
+- **Set Difference (`-`)**: Finds the difference between two relations (useful to identify rows that are in one table but not in another).
+
+
+
+**Sample Data:**
+
+Here’s a preview of the sample data for each relation:
+
+- **User:**
+  
+| user_id | name  | age | weight | fitness_goal     | email              |
+|---------|-------|-----|--------|------------------|--------------------|
+| 1       | Alex  | 23  | 150    | Gain muscle mass | alex@prtracker.com |
+| 2       | Jamie | 27  | 165    | Lose weight      | jamie@prtracker.com|
+
+- **Workout:**
+  
+| workout_id | user_id | date       | duration | workout_type | calories_burned |
+|------------|---------|------------|----------|--------------|-----------------|
+| 1          | 1       | 2024-09-15 | 60       | Strength     | 500             |
+| 2          | 2       | 2024-09-16 | 45       | Cardio       | 350             |
+
+- **Exercise:**
+  
+| exercise_id | name       | exercise_type | muscle_group | equipment_used |
+|-------------|------------|---------------|--------------|----------------|
+| 1           | Bench Press| Strength      | Chest        | Barbell        |
+| 2           | Squats     | Strength      | Legs         | Barbell        |
+
+- **ExercisePerformance:**
+  
+| performance_id | workout_id | exercise_id | sets | reps | weight | time | heart_rate |
+|----------------|------------|-------------|------|------|--------|------|------------|
+| 1              | 1          | 1           | 3    | 10   | 135    | NA   | NA         |
+| 2              | 2          | 2           | 4    | 12   | 185    | NA   | NA         |
+
+- **Goal:**
+  
+| goal_id | user_id | description        | target | progress | start_date | end_date   |
+|---------|---------|--------------------|--------|----------|------------|------------|
+| 1       | 1       | Gain 5 pounds      | 155    | 2        | 2024-09-01 | 2024-12-01 |
+| 2       | 2       | Lose 10 pounds     | 155    | 3        | 2024-09-01 | 2024-12-01 |
+
+---
+
+#### **Project Management**
+
+**Draft Project Schedule:**
+
+To ensure that we meet the final project deadline of December 12, the following milestones have been set:
+
+| Task                              | Start Date | End Date   | Status     |
+|-----------------------------------|------------|------------|------------|
+| Database Design & ERD             | 2024-09-01 | 2024-09-20 | Completed  |
+| Relational Schema & Normalization | 2024-09-21 | 2024-10-01 | In Progress|
+| Implementation & Testing          | 2024-10-02 | 2024-11-15 | Not Started|
+| Documentation & Video Creation    | 2024-11-16 | 2024-11-30 | Not Started|
+| Final Submission                  | 2024-12-01 | 2024-12-12 | Not Started|
+
+**Gantt Chart:**
+
+```{mermaid}
+gantt
+    title PRTracker Project Timeline
+    dateFormat  YYYY-MM-DD
+    axisFormat  %b %d
+
+    section Project Planning
+    Define Project Scope           :done,    scope, 2024-09-01, 2024-09-10
+    Initial ERD and Design Draft   :done,    erd,   2024-09-11, 2024-09-20
+
+    section Database Design and Implementation
+    Finalize ERD and Normalization :active,  finalize, 2024-09-21, 2024-10-01
+    Create Relational Schema       :active,  schema,  2024-09-25, 2024-10-05
+    Implement Database Schema      :         dbimpl,  2024-10-06, 2024-10-15
+    Data Insertion and Testing     :         datains, 2024-10-16, 2024-10-25
+
+    section Application Development
+    Create Backend Services        :         backend, 2024-10-26, 2024-11-05
+    Develop Frontend UI            :         frontend,2024-11-06, 2024-11-15
+    Integrate Backend and Frontend :         integrate,2024-11-16, 2024-11-25
+
+    section Testing and Refinement
+    Functional Testing             :         testing, 2024-11-26, 2024-12-05
+    Final Refinements              :         refine,  2024-12-06, 2024-12-10
+
+    section Final Submission
+    Create Documentation and Video :         docs,    2024-12-01, 2024-12-10
+    Submit Final Project           :         submit,  2024-12-11, 2024-12-12
+```
+
+---
+
+
